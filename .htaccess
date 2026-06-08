@@ -1,0 +1,23 @@
+# Desactivar la visualización del índice de directorios (Evita que vean tus carpetas)
+Options -Indexes
+
+# Activar el motor de reescritura de URLs
+RewriteEngine On
+
+# ---------------------------------------------------------
+# REGLA 1: Ocultar extensiones .php
+# ---------------------------------------------------------
+# Si el archivo o carpeta no existe físicamente...
+RewriteCond %{REQUEST_FILENAME} !-d
+# Pero sí existe el archivo con la extensión .php...
+RewriteCond %{REQUEST_FILENAME}\.php -f
+# Carga internamente el archivo .php sin mostrarlo en la URL
+RewriteRule ^(.*?)/?$ $1.php [L]
+
+# ---------------------------------------------------------
+# REGLA 2: Proteger archivos críticos
+# ---------------------------------------------------------
+# Nadie podrá acceder a config.php desde el navegador web
+<Files "config.php">
+    Require all denied
+</Files>
